@@ -1,0 +1,90 @@
+Verificando variavel "x"
+Adicionando na memoria variavel "x" e local "Linha 1 Coluna 5"
+
+Verificando variavel "y"
+Adicionando na memoria variavel "y" e local "Linha 2 Coluna 5"
+
+Verificando variavel "xuxa"
+Adicionando na memoria variavel "xuxa" e local "Linha 3 Coluna 5"
+
+Verificando variavel "xaxa90"
+Adicionando na memoria variavel "xaxa90" e local "Linha 4 Coluna 5"
+
+Verificando variavel "cAio"
+Adicionando na memoria variavel "cAio" e local "Linha 5 Coluna 5"
+
+Verificando id "xaxa90" foi declarado
+id "xaxa90" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando divisão por zero
+Não tem divisão por zero
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
