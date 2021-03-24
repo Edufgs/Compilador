@@ -13,6 +13,7 @@ import static principal.Principal.terminal;
 
 /**
  * Analisador Sintatico
+ * 
  * @author Eduardo Gonçalves da Silva
  */
 
@@ -21,10 +22,12 @@ public class AnalisadorSintatico {
     private static List<String> pilha; //Pilha para guardar as produções
     private static List<linhaTabela> listaTokens; //Guarda a lista de tokens do codigo
     private static FileWriter log; //vai guardada o log de operações (empilha, desempilha, redução, etc....)
+    private static boolean erro;
     
-    public static void analisadorSintatico(String comandoVetor[]) {
+    public static boolean analisadorSintatico(String comandoVetor[]) {
         pilha = new ArrayList(); //inicia a pilha que guarda as produções
         listaTokens = new ArrayList();
+        erro = false;
             
         //Adiciona os simbolos no fnal da lista e pilha
         pilha.add("$");
@@ -35,7 +38,7 @@ public class AnalisadorSintatico {
             InputStreamReader tabela = new InputStreamReader(entrada);//abre para leituda do arquivo (ele lê bytes e os decodifica em caracteres usando um especificado charset)
             BufferedReader lerTabela = new BufferedReader(tabela);//Lê texto de um fluxo de entrada de caracteres, armazenando caracteres em buffer para fornecer uma leitura eficiente de caracteres, matrizes e linhas
             
-            log = new FileWriter(new File("Log.txt"));//cria o arquivo que vai ser gravado o log sintatico
+            log = new FileWriter(new File("Log Sintatico.txt"));//cria o arquivo que vai ser gravado o log sintatico
             
             String linha = lerTabela.readLine();//pega a proxima linha
             
@@ -48,41 +51,39 @@ public class AnalisadorSintatico {
             }
             linha = lerTabela.readLine();//pega a proxima linha
             
-            System.out.println("Inicia Analisador Sintatico:");
-            
+            System.out.println("===============================================================================");
+            System.out.println("Inicia Analisador Sintatico:\n");
+            String linhaVetor[];
             //Preenche a Lista de simbolos não terminais
             while(linha!=null){
-                String linhaVetor[] = linha.split(" ", 3);//separa a frase onde tem espaço e adiciona em um vetor
+                linhaVetor = linha.split(" ", 3);//separa a frase onde tem espaço e adiciona em um vetor
                 //se for igual a o erro que aparece na tabela do analisador Lexico, ele pula
                 if(linhaVetor[0].equals("Erro")){ 
                     linha = lerTabela.readLine();
                     continue;                
                 }
-                listaTokens.add(new linhaTabela(linhaVetor[0].trim(),linhaVetor[linhaVetor.length-1]));
+                listaTokens.add(new linhaTabela(linhaVetor[0].trim(),linhaVetor[linhaVetor.length-1]));//Colocando tokens na lista de tokens
                 linha = lerTabela.readLine();
-            }
-            
+            }           
             entrada.close();
             
             listaTokens.add(new linhaTabela("$"," "));
             
             while(!pilha.isEmpty() && !listaTokens.isEmpty()){
                 if(pilha.get(0).equals(listaTokens.get(0).getToken())){
-                    log.write("\n++++++++++++++++++++++++");
+                    log.write("\n+++++++++++++++++++++++++++++");
                     desempilha(pilha.get(0));
                     log.write("\nRemove "+listaTokens.get(0).getToken());
                     listaTokens.remove(0);
-                    log.write("\n++++++++++++++++++++++++");
+                    log.write("\n+++++++++++++++++++++++++++++");
                 }else{
                     tabelaSintatica(comandoVetor);
                 }
             }
-            
-            log.close();
-            
+            log.close();     
             imprimirLog(comandoVetor);
-            System.out.println("\n");
-            System.out.println("Analisador Sintatico:Pronto!!!!");
+            System.out.println("Analisador Sintatico:Pronto!!!!\n");
+            System.out.println("===============================================================================\n");
         } catch (FileNotFoundException ex) {
             System.out.println("Erro em abrir o arquivo: " + ex);
             terminal();
@@ -90,22 +91,26 @@ public class AnalisadorSintatico {
             System.out.println("Erro: " + ex.toString());
             terminal();
         }
-
+        return erro;
     }
     
+    //Verifica o comandoVetor e impreme o log se for pedido
      private static void imprimirLog(String comandoVetor[]) throws FileNotFoundException, IOException{
         int i = 1;
         while(i < comandoVetor.length){
             if(comandoVetor[i].equals("-ls") || comandoVetor[i].equals("-tudo")){
-                FileInputStream abreLog = new FileInputStream("Log.txt"); //abre o arquivo
+                FileInputStream abreLog = new FileInputStream("Log Sintatico.txt"); //abre o arquivo
                 InputStreamReader Log = new InputStreamReader(abreLog);//abre para leituda do arquivo (ele lê bytes e os decodifica em caracteres usando um especificado charset)
                 BufferedReader lerLog = new BufferedReader(Log);//Lê texto de um fluxo de entrada de caracteres, armazenando caracteres em buffer para fornecer uma leitura eficiente de caracteres, matrizes e linhas
        
                 String linha = lerLog.readLine();//pega a proxima linha
+                System.out.println("Log Sintatico:");
+                System.out.println("-------------------------------------------------------------------------------");
                 while(linha != null){
                     System.out.println(linha);//imprime a linha
                     linha = lerLog.readLine();//pega a proxima linha
                 }
+                System.out.println("-------------------------------------------------------------------------------");
                 abreLog.close();
             }
             i++;
@@ -122,7 +127,7 @@ public class AnalisadorSintatico {
                         producao(0);
                         break;
                     default:
-                        System.out.println("Erro: Sintatico. Era esperado um tk_inicio mas foi encontrado um "+listaTokens.get(0).getToken() + " " +listaTokens.get(0).getLocal());
+                        System.out.println("Erro: Sintatico. Era esperado um tk_inicio mas foi encontrado um "+listaTokens.get(0).getToken() + " " +listaTokens.get(0).getLocal());                      
                         log.close();
                         imprimirLog(comandoVetor);
                         terminal();
@@ -339,7 +344,7 @@ public class AnalisadorSintatico {
                 }
                 break;
             default:
-                System.out.println("Erro na Tabela Sintatica!!!!");
+                System.out.println("Erro: Sintatico. Era esperado um ; na " + listaTokens.get(0).getLocal());
                 log.close();
                 imprimirLog(comandoVetor);
                 terminal();
@@ -351,141 +356,141 @@ public class AnalisadorSintatico {
         try{
             switch(n){
                 case 0:
-                    log.write("\n=============================");
+                    log.write("_____________________________");
                     desempilha("PROGRAMA");
                     empilha("tk_fim");
                     empilha("tk_fecha_co");
                     empilha("LISTA_COMANDOS");
                     empilha("tk_abre_co");
                     empilha("tk_inicio");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 1:
-                    log.write("\n=============================");                    
+                    log.write("\n_____________________________");                  
                     desempilha("LISTA_COMANDOS");
                     empilha("LISTA_COMANDOS");
                     empilha("tk_ponto_virgula");
                     empilha("COMANDO");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 2:
-                    log.write("=============================");
+                    log.write("\n_____________________________");
                     desempilha("LISTA_COMANDOS");
                     log.write("\nEmpilha Ê"); //vazio
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;                    
                 case 3:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("LISTA_COMANDOS");
                     empilha("LISTA_COMANDOS");
                     empilha("CONDICAO");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                  case 4:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("LISTA_COMANDOS");
                     empilha("LISTA_COMANDOS");
                     empilha("REPETICAO");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 5:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("COMANDO");
                     empilha("id");
                     empilha("tk_escreve");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 6:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("COMANDO");
                     empilha("id");
                     empilha("tk_ler");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 7:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("OBJETO");
                     empilha("num");                 
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 8:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("OBJETO");
                     empilha("id");              
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 9:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("VARIAVEL");
                     empilha("ATRIBUIR");
                     empilha("id");                 
                     empilha("TIPO_VARIAVEL");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 10:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("COMANDO");
                     empilha("VARIAVEL");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 11:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("ATRIBUIR");
                     empilha("OBJETO");
                     empilha("tk_atribuicao");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 12:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("ATRIBUIR");
                     log.write("\nEmpilha Ê");//vazio
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 13:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("TIPO_VARIAVEL");
                     empilha("tk_int");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 14:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("EXPRESSAO");
                     empilha("CONTA");
                     empilha("ATRIBUIR");
                     empilha("id");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 15:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("CONTA");
                     empilha("OBJETO");
                     empilha("OPERACAO");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 16:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("CONTA");
                     empilha("CONTA");
                     empilha("tk_fecha_pa");
                     empilha("CONTA");
                     empilha("OBJETO");
                     empilha("tk_abre_pa");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 17:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("CONTA");
                     log.write("\nEmpilha Ê"); //vazio
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 18:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("COMANDO");
                     empilha("EXPRESSAO");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 19:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("CONDICAO");
                     empilha("tk_fecha_co");
                     empilha("LISTA_COMANDOS");
@@ -496,19 +501,19 @@ public class AnalisadorSintatico {
                     empilha("id");
                     empilha("tk_abre_pa");
                     empilha("tk_se");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 20:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("CONDICAO");
                     empilha("tk_fecha_co");
                     empilha("LISTA_COMANDOS");
                     empilha("tk_abre_co");
                     empilha("tk_senao");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 21:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("REPETICAO");
                     empilha("tk_fecha_co");
                     empilha("LISTA_COMANDOS");
@@ -519,67 +524,67 @@ public class AnalisadorSintatico {
                     empilha("id");
                     empilha("tk_abre_pa");
                     empilha("tk_enquanto");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 22:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("OPERACAO");
                     empilha("tk_adicao");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 23:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("OPERACAO");
                     empilha("tk_subtracao");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 24:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("OPERACAO");
                     empilha("tk_multiplicacao");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 25:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("OPERACAO");
                     empilha("tk_divisao");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 26:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("LOGICO");
                     empilha("tk_maior");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 27:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("LOGICO");
                     empilha("tk_menor");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 28:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("BLOCO");
                     empilha("tk_abre_co");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 29:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("BLOCO");
                     empilha("tk_fecha_co");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 30:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("BLOCO");
                     empilha("tk_abre_pa");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 case 31:
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     desempilha("BLOCO");
                     empilha("tk_fecha_pa");
-                    log.write("\n=============================");
+                    log.write("\n_____________________________");
                     break;
                 default:
                     System.out.println("Erro na produçao!!!!");

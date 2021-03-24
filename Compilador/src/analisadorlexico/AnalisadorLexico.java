@@ -14,15 +14,16 @@ import static principal.Principal.terminal;
  * @author Eduardo Gonçalves da Silva
  */
 public class AnalisadorLexico {
-    
+    private static boolean erro;
     //E:\Eduardo\Eduardo\Semestres\6 Semestre\Compiladores\Projetos\AnalisadorLexico\
     /* Para iniciar o compilador tem que: "compilador -lt endereco com o nome do arquivo de codigo
         Sem o -lt não é imprimido a tabela
     */
-    public static void analisadorLexico(String comandoVetor[]) {
+    public static boolean analisadorLexico(String comandoVetor[]) {
         int coluna; //Marca a posição no vetor
         int l = 0;//marca a linha
         char linhaChar[]; //vai guardar as linha em vetor de char
+        erro = false;
         
         try{//Tratamento de Erro
             FileInputStream entrada = new FileInputStream(comandoVetor[comandoVetor.length-1]); //abre o arquivo
@@ -35,6 +36,7 @@ public class AnalisadorLexico {
             
             //le o codigo digitado
             String linha = lerCodigo.readLine(); //pega a primeira linha
+            String lexema;
             
             //verifica se o arquivo esta vazio
             if(linha == null){
@@ -43,12 +45,13 @@ public class AnalisadorLexico {
                 tabela.close();
                 terminal();
             }
+            System.out.println("===============================================================================");
             System.out.println("Inicia Analisador Lexico:");
             //começa a leitura do codigo
             while(linha != null){ //Enquanto houver linha no arquivo
                 coluna = 0;//coluna começa no inicio
                 linha += ' ';//adiciona espaço para saber o final da linha
-                String lexema = "";//limpa a String que guarda os lexemas para imprimir na tabela
+                lexema = "";//limpa a String que guarda os lexemas para imprimir na tabela
                 linhaChar = linha.toCharArray(); //Transforma a String em vetor de char
                 q0(linhaChar,coluna,l,lexema,tabela); //Começa na posição zero
                 linha = lerCodigo.readLine(); //pega a proxima linha
@@ -59,8 +62,9 @@ public class AnalisadorLexico {
             System.out.println("");
             
             //imprime a tabela se for pedida
-            tabelaToken(comandoVetor,linha);
-            System.out.println("\nAnalisador Lexico: Pronto!!!\n");
+            tabelaToken(comandoVetor);
+            System.out.println("\nAnalisador Lexico: Pronto!!!");
+            System.out.println("===============================================================================\n");
         }catch(FileNotFoundException ex){
             System.out.println("Erro em abrir o arquivo: " + ex);
             terminal();
@@ -68,10 +72,12 @@ public class AnalisadorLexico {
             System.out.println("Erro:" + e);
             terminal();
         }
+        return erro;
     }
 
-    private static void tabelaToken(String[] comandoVetor,String linha) throws FileNotFoundException, IOException{
+    private static void tabelaToken(String comandoVetor[]) throws FileNotFoundException, IOException{
         int i = 1;
+        String linha;
         while(i < comandoVetor.length){
             if(comandoVetor[i].equals("-lt") || comandoVetor[i].equals("-tudo")){
                 FileInputStream abreTabela = new FileInputStream("Tabela.txt"); //abre o arquivo
@@ -79,10 +85,13 @@ public class AnalisadorLexico {
                 BufferedReader lerTabela = new BufferedReader(tabelab);//Lê texto de um fluxo de entrada de caracteres, armazenando caracteres em buffer para fornecer uma leitura eficiente de caracteres, matrizes e linhas
        
                 linha = lerTabela.readLine();//pega a proxima linha
+                System.out.println("Tabela:");
+                System.out.println("-------------------------------------------------------------------------------");
                 while(linha != null){
                     System.out.println(linha);//imprime a linha
                     linha = lerTabela.readLine();//pega a proxima linha
                 }
+                System.out.println("-------------------------------------------------------------------------------");
                 abreTabela.close();
             }
             i++;
@@ -202,6 +211,7 @@ public class AnalisadorLexico {
                         System.out.print("Caractere não esperado: " + vetor[coluna]);
                         System.out.print("\t Linha " + l + " Coluna " + (coluna - lexema.length())); //diminui o tanto de caractere para mostar o começo da palavra
                         System.out.println("");
+                        erro = true;
                         
                         //imprimir no arquivo
                         tabela.write("\nErro Lexico \t\t ");
@@ -213,6 +223,7 @@ public class AnalisadorLexico {
                     break;
                     default:
                         System.out.println("Erro q0");
+                        erro = true;
                 }
         }
     }
@@ -302,6 +313,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q5");
+                erro = true;
         }
     }
     
@@ -353,6 +365,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q8");
+                erro = true;
         }
     }
     
@@ -462,6 +475,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q17");
+                erro = true;
         }
     }
     
@@ -544,6 +558,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q22");
+                erro = true;
         }
     }
     
@@ -600,6 +615,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q25");
+                erro = true;
         }
     }
     //estado final do comando if. Onde imprime na tela e verifica se é o comando "if"
@@ -632,6 +648,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q26");
+                erro = true;
         }
     }
     
@@ -670,6 +687,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q28");
+                erro = true;
         }
     }
      //estado do comando while (i)
@@ -733,6 +751,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro no q32");
+                erro = true;
         }
     }
     
@@ -811,6 +830,7 @@ public class AnalisadorLexico {
                 //imprime na tela
                 System.out.print("Erro Id não pode começar com numero!!!!");
                 System.out.println("\t\t Linha " + l + " Coluna " + (coluna - lexema.length())); //diminui o tanto de caractere para mostar o começo da palavra
+                erro = true;
                 //imprime na tabela
                 tabela.write("\nErro Id não pode começar com numero!!!!");
                 tabela.write("\t\t Linha " + l + " Coluna " + (coluna - lexema.length())); //diminui o tanto de caractere para mostar o começo da palavra
@@ -824,6 +844,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro q40");
+                erro = true;
         }
     }  
    
@@ -844,6 +865,7 @@ public class AnalisadorLexico {
                 break;
             default:
                 System.out.println("Erro q41");
+                erro = true;
         }
     }  
 }

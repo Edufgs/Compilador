@@ -1,0 +1,28 @@
+_var cAio
+_var xaxa90
+_var xuxa
+_var y = 1
+_var x
+ler xaxa90
+x = 5 
+enquanto x > y 
+enquanto x > y 
+y = y + 1 
+fim_enquanto
+fim_enquanto
+se x < y 
+se x < y 
+x = x + 5 
+fim_se
+senao
+_reg = x + 555 
+y = x * _reg
+fim_senao
+fim_se
+senao
+_reg = x + 555 
+y = x * _reg
+fim_senao
+y = x - 2 
+x = 9 / 5 
+escreve x

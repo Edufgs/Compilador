@@ -1,7 +1,7 @@
 package analisadorsintatico;
 
 /**
- * 
+ * Classe usada para guardar os Tokens e Local no codigo
  * @author Eduardo Gonçalves da Silva
  */
 public class linhaTabela {
