@@ -1,0 +1,54 @@
+Verificando variavel "x"
+Adicionando na memoria variavel "x" e local "Linha 1 Coluna 5"
+
+Verificando variavel "resultado"
+Adicionando na memoria variavel "resultado" e local "Linha 2 Coluna 5"
+
+Verificando variavel "y"
+Adicionando na memoria variavel "y" e local "Linha 3 Coluna 5"
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "resultado" foi declarado
+id "resultado" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "resultado" foi declarado
+id "resultado" foi declarado
+
+Verificando id "resultado" foi declarado
+id "resultado" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "x" foi declarado
+id "x" foi declarado
+
+Verificando id "y" foi declarado
+id "y" foi declarado
+
+Verificando id "resultado" foi declarado
+id "resultado" foi declarado
+
+Verificando id "resultado" foi declarado
+id "resultado" foi declarado
+
+Verificando id "resultado" foi declarado
+id "resultado" foi declarado
+

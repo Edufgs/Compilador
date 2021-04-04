@@ -1,0 +1,22 @@
+start[
+	int x;
+	int resultado;
+	int y = 0;
+
+	read x;
+	
+	if(x>y)[
+		resultado = 1;
+		while(x>y)[				
+			resultado = resultado * x;
+			x -1;
+		]
+	]ifno[
+		if(x<y)[
+			resultado = 0;		
+		]ifno[
+			resultado = 1;
+		]
+	]				
+	write resultado;
+]end

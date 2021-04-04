@@ -1,0 +1,24 @@
+Inicia Codigo Final
+Insere as VARIAVEIS:
+Variavel: y
+Variavel: resultado
+Variavel: x
+Insere o comando LER
+Inicia o comando SE
+Inicia EXPRESSÃO
+Finaliza EXPRESSÃO
+Inicia comando ENQUANTO
+Inicia EXPRESSÃO
+Finaliza EXPRESSÃO
+Inicia EXPRESSÃO
+Finaliza EXPRESSÃO
+Finaliza comando ENQUANTO
+Inicia o comando SE
+Inicia EXPRESSÃO
+Finaliza EXPRESSÃO
+Inicia EXPRESSÃO
+Finaliza EXPRESSÃO
+Finaliza comando SE
+Finaliza comando SE
+Insere o comando ESCREVER
+Finaliza Codigo Final

@@ -1,0 +1,20 @@
+_var y = 0
+_var resultado
+_var x
+ler x
+se x > y 
+resultado = 1 
+enquanto x > y 
+resultado = resultado * x 
+x - 1 
+fim_enquanto
+fim_se
+senao
+se x < y 
+resultado = 0 
+fim_se
+senao
+resultado = 1 
+fim_senao
+fim_senao
+escreve resultado
